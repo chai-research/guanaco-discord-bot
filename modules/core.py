@@ -4,10 +4,6 @@ import config
 
 
 def attach_core_module(bot):
-    @bot.event
-    async def on_ready():
-        await bot.tree.sync(guild=Object(id=config.GUILD_ID))
-
     @bot.command(name="sync", guilds=[Object(id=config.GUILD_ID)])
     async def sync(ctx: ext.commands.Context):
         await ctx.message.delete()

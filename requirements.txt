@@ -1,2 +1,4 @@
 discord.py
 chai-guanaco
+html2image
+beautifulsoup4
