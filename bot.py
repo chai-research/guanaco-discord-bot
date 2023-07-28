@@ -14,7 +14,7 @@ def main():
 def compose_attached_modules(bot):
     attach_characters_module(bot)
     attach_chat_module(bot)
-    attach_leaderboard_module(bot)
+    # attach_leaderboard_module(bot)
     attach_core_module(bot)
 
 
