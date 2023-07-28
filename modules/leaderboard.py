@@ -1,3 +1,4 @@
+import asyncio
 import discord
 from bs4 import BeautifulSoup
 from discord.ext import tasks
@@ -17,7 +18,7 @@ def attach_leaderboard_module(bot: discord.ext.commands.Bot):
     async def send_leaderboard():
         global LAST_MESSAGE_ID
         channel = bot.get_channel(config.LEADERBOARD_CHANNEL_ID)
-        leaderboard = get_leaderboard_data()
+        leaderboard = await get_leaderboard_data_async()
         leaderboard = prepare_leaderboard_data(leaderboard)
         files = get_files_from_leaderboard(leaderboard)
         embeds = create_embeds(len(files))
@@ -30,6 +31,11 @@ def attach_leaderboard_module(bot: discord.ext.commands.Bot):
     @bot.event
     async def on_ready():
         send_leaderboard.start()
+
+
+async def get_leaderboard_data_async():
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, get_leaderboard_data)
 
 
 def get_leaderboard_data():
