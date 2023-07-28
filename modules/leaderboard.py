@@ -24,8 +24,6 @@ def attach_leaderboard_module(bot: discord.ext.commands.Bot):
         embeds = create_embeds(len(files))
         await delete_last_message(channel, bot.application_id)
         message = await channel.send("🏆 Guanaco Leaderboard", embeds=embeds, files=files, silent=True)
-        await message.pin()
-        await channel.last_message.delete()
         LAST_MESSAGE_ID = message.id
 
     @bot.event
@@ -66,11 +64,19 @@ async def delete_last_message(channel, bot_id):
     if LAST_MESSAGE_ID:
         await channel.get_partial_message(LAST_MESSAGE_ID).delete()
         return
-    pins = await channel.pins()
-    for pin in pins:
-        if pin.author.id == bot_id:
-            await pins[0].delete()
+    messages = await _get_messages(channel)
+    for message in messages:
+        if message.author.id == bot_id:
+            await message.delete()
             return
+
+
+async def _get_messages(channel):
+    messages = []
+    async for message in channel.history(limit=1000):
+        messages.append(message)
+    messages.reverse()
+    return messages
 
 
 def _create_discord_file(content, filename):
@@ -106,7 +112,7 @@ def _get_engagement_prize(df):
 
 def save_html_as_image(html, image_path):
     hti = Html2Image(custom_flags=["--disable-gpu", "--no-sandbox", "--hide-scrollbars"])
-    data = hti.screenshot(html_str=html, save_as=image_path, size=(1000, 800))
+    data = hti.screenshot(html_str=html, save_as=image_path, size=(1150, 800))
     full_image_path = data[0]
     return full_image_path
 
@@ -114,15 +120,30 @@ def save_html_as_image(html, image_path):
 def get_html_leaderboard(dataframe, title):
     soup = BeautifulSoup(_get_leaderboard_template(), 'html.parser')
     _add_margin(soup)
+    _add_custom_css(soup)
     leaderboard = _get_leaderboard_section(soup)
     _update_legend(soup, title)
     _add_columns_to_leaderboard(dataframe, soup, leaderboard)
     return str(soup)
 
 
+def _add_custom_css(soup):
+    style_tag = soup.new_tag('style')
+    style_tag.string = '''
+        .chai-competition-detailed-leaderboard-entry {
+            font-size: 14px;
+        }
+        .chai-competition-detailed-leaderboard-entry:first-child {
+            font-weight: bold!important;
+            font-size: 16px;
+        }
+    '''
+    soup.head.append(style_tag)
+
+
 def _add_margin(soup):
     style_tag = soup.new_tag('style')
-    style_tag.string = 'body { margin: 70px 85px 85px 90px; }'
+    style_tag.string = 'body { margin: 75px 60px 65px 60px; }'
     soup.head.append(style_tag)
 
 
