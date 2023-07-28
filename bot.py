@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from modules.characters import attach_characters_module
 from modules.chat import attach_chat_module
 from modules.leaderboard import attach_leaderboard_module
