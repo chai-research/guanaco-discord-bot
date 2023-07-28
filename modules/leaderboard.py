@@ -105,7 +105,7 @@ def _get_engagement_prize(df):
 
 
 def save_html_as_image(html, image_path):
-    hti = Html2Image(custom_flags=["--disable-gpu", "--no-sandbox"])
+    hti = Html2Image(custom_flags=["--disable-gpu", "--no-sandbox", "--hide-scrollbars"])
     data = hti.screenshot(html_str=html, save_as=image_path, size=(1000, 800))
     full_image_path = data[0]
     return full_image_path
