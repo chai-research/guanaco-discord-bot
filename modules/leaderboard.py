@@ -39,7 +39,7 @@ async def get_leaderboard_data_async():
 
 
 def get_leaderboard_data():
-    leaderboard_data = cache(metrics.get_leaderboard, regenerate=True)(config.DEVELOPER_KEY)
+    leaderboard_data = cache(metrics.get_leaderboard, regenerate=False)(config.DEVELOPER_KEY)
     leaderboard_data["thumbs_up_ratio"] *= 100.0
     return leaderboard_data
 
