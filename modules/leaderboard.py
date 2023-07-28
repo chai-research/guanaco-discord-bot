@@ -23,7 +23,7 @@ def attach_leaderboard_module(bot: discord.ext.commands.Bot):
         files = get_files_from_leaderboard(leaderboard)
         embeds = create_embeds(len(files))
         await delete_last_message(channel, bot.application_id)
-        message = await channel.send("🏆 Guanaco Leaderboard", embeds=embeds, files=files)
+        message = await channel.send("🏆 Guanaco Leaderboard", embeds=embeds, files=files, silent=True)
         await message.pin()
         await channel.last_message.delete()
         LAST_MESSAGE_ID = message.id
@@ -39,7 +39,7 @@ async def get_leaderboard_data_async():
 
 
 def get_leaderboard_data():
-    leaderboard_data = cache(metrics.get_leaderboard, regenerate=False)(config.DEVELOPER_KEY)
+    leaderboard_data = cache(metrics.get_leaderboard, regenerate=True)(config.DEVELOPER_KEY)
     leaderboard_data["thumbs_up_ratio"] *= 100.0
     return leaderboard_data
 
