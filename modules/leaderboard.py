@@ -90,7 +90,6 @@ def _create_embed(filename):
 
 
 def _get_grand_prize(df):
-    print(df)
     df = df.sort_values(['overall_rank', 'developer_uid', 'model_name']).reset_index(drop=True)
     html = get_html_leaderboard(df.round(3).head(NUM_ROWS), 'Grand Prize Contenders')
     image_path = save_html_as_image(html, image_path="grand_prize.png")
