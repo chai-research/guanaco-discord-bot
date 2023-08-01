@@ -212,7 +212,7 @@ def _get_column_names():
         "#": "#",
         "developer_uid": "Developer",
         "model_name": "Model",
-        "thumbs_up_ratio": "Thumbs Ups",
+        "thumbs_up_ratio": "Thumbs Up",
         "user_response_length": "User Response Length",
         "overall_rank": "Overall Rank"
     }
