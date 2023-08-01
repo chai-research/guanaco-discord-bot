@@ -43,7 +43,7 @@ def get_leaderboard_data():
 
 
 def prepare_leaderboard_data(leaderboard):
-    leaderboard = metrics._print_formatted_leaderboard(leaderboard)
+    leaderboard = metrics._print_formatted_leaderboard(leaderboard, detailed=False)
     return leaderboard
 
 
@@ -90,7 +90,8 @@ def _create_embed(filename):
 
 
 def _get_grand_prize(df):
-    df = df.sort_values('overall_rank').reset_index(drop=True)
+    print(df)
+    df = df.sort_values(['overall_rank', 'developer_uid', 'model_name']).reset_index(drop=True)
     html = get_html_leaderboard(df.round(3).head(NUM_ROWS), 'Grand Prize Contenders')
     image_path = save_html_as_image(html, image_path="grand_prize.png")
     return image_path
@@ -104,7 +105,7 @@ def _get_thumbs_up_prize(df):
 
 
 def _get_engagement_prize(df):
-    df = df.sort_values('engagement_score', ascending=False).reset_index(drop=True)
+    df = df.sort_values('user_response_length', ascending=False).reset_index(drop=True)
     html = get_html_leaderboard(df.round(3).head(NUM_ROWS), 'Engagement Prize Contenders')
     image_path = save_html_as_image(html, image_path="engagement_prize.png")
     return image_path
@@ -210,11 +211,10 @@ def _get_entry_class(is_winner):
 def _get_column_names():
     column_names = {
         "#": "#",
-        "submission_id": "Submission ID",
-        "thumbs_up_ratio": "Thumbs Ups",
-        "mcl": "MCL",
+        "developer_uid": "Developer",
+        "model_name": "Model",
+        "thumbs_up_ratio": "Thumbs Up",
         "user_response_length": "User Response Length",
-        "engagement_score": "Engagement",
         "overall_rank": "Overall Rank"
     }
     return column_names
@@ -224,13 +224,13 @@ def _get_leaderboard_template():
     leaderboard_template = '''<!DOCTYPE html>
     <html>
        <head>
-          <link rel="stylesheet" href="https://www.chai-research.com/css/chai-mid.css">
-          <link rel="stylesheet" href="https://www.chai-research.com/css/chai-mobile.css">
-          <link rel="stylesheet" href="https://www.chai-research.com/css/chai.css">
-          <link rel="stylesheet" href="https://www.chai-research.com/css/competition-mobile.css">
-          <link rel="stylesheet" href="https://www.chai-research.com/css/competition.css">
-          <link rel="stylesheet" href="https://www.chai-research.com/css/main.css">
-          <link rel="stylesheet" href="https://www.chai-research.com/css/normalize.css">
+          <link rel="stylesheet" href="https://www.chai-research.com/legacy/css/chai-mid.css">
+          <link rel="stylesheet" href="https://www.chai-research.com/legacy/css/chai-mobile.css">
+          <link rel="stylesheet" href="https://www.chai-research.com/legacy/css/chai.css">
+          <link rel="stylesheet" href="https://www.chai-research.com/legacy/css/competition-mobile.css">
+          <link rel="stylesheet" href="https://www.chai-research.com/legacy/css/competition.css">
+          <link rel="stylesheet" href="https://www.chai-research.com/legacy/css/main.css">
+          <link rel="stylesheet" href="https://www.chai-research.com/legacy/css/normalize.css">
        </head>
        <body>
           <div class="competition-evaluation-body-container leaderboard-container">
