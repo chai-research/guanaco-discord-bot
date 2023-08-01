@@ -37,13 +37,13 @@ async def get_leaderboard_data_async():
 
 
 def get_leaderboard_data():
-    leaderboard_data = cache(metrics.get_leaderboard, regenerate=True)(config.DEVELOPER_KEY)
+    leaderboard_data = cache(metrics.get_leaderboard, regenerate=False)(config.DEVELOPER_KEY)
     leaderboard_data["thumbs_up_ratio"] *= 100.0
     return leaderboard_data
 
 
 def prepare_leaderboard_data(leaderboard):
-    leaderboard = metrics._print_formatted_leaderboard(leaderboard)
+    leaderboard = metrics._print_formatted_leaderboard(leaderboard, detailed=False)
     return leaderboard
 
 
@@ -90,7 +90,8 @@ def _create_embed(filename):
 
 
 def _get_grand_prize(df):
-    df = df.sort_values(['overall_rank', 'submission_id']).reset_index(drop=True)
+    print(df)
+    df = df.sort_values(['overall_rank', 'developer_uid', 'model_name']).reset_index(drop=True)
     html = get_html_leaderboard(df.round(3).head(NUM_ROWS), 'Grand Prize Contenders')
     image_path = save_html_as_image(html, image_path="grand_prize.png")
     return image_path
