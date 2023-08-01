@@ -144,7 +144,7 @@ def _add_custom_css(soup):
 
 def _add_margin(soup):
     style_tag = soup.new_tag('style')
-    style_tag.string = 'body { margin: 75px 60px 65px 60px; }'
+    style_tag.string = 'body { margin: 65px 60px 65px 105px; }'
     soup.head.append(style_tag)
 
 
