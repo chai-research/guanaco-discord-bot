@@ -17,6 +17,7 @@ def attach_core_module(bot):
             "1. `/bots` — Lists all available bots to talk with.\n"
             "2. `/chat <submission_id> <bot_name>` — Starts conversation with the bot, served by deployed submission.\n"
             "3. `/info` — Prints this message.\n"
+            "4. `/models` - Prints avaliable submission_ids.\n"
             "Enjoy ❤️"
         )
 

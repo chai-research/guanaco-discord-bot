@@ -1,5 +1,6 @@
 from chai_guanaco import chat as chai_chat
 from chai_guanaco.submit import get_model_info
+from chai_guanaco.metrics import get_all_historical_submissions
 
 import config
 
@@ -7,6 +8,12 @@ import config
 def get_available_bots():
     available_bots = chai_chat.get_available_bots().split("\n")
     return available_bots
+
+
+def get_available_models():
+    models = get_all_historical_submissions(config.DEVELOPER_KEY)
+    models = [k for k, v in models.items() if v['status']=='deployed']
+    return models
 
 
 def validate_bot_name(bot_name):
