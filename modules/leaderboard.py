@@ -91,6 +91,7 @@ def _create_embed(filename):
 
 def _get_grand_prize(df):
     df = df.sort_values(['overall_rank', 'developer_uid', 'model_name']).reset_index(drop=True)
+    df = metrics._get_df_with_unique_dev_id(df)
     html = get_html_leaderboard(df.round(3).head(NUM_ROWS), 'Grand Prize Contenders')
     image_path = save_html_as_image(html, image_path="grand_prize.png")
     return image_path
@@ -98,6 +99,7 @@ def _get_grand_prize(df):
 
 def _get_thumbs_up_prize(df):
     df = df.sort_values('thumbs_up_ratio', ascending=False).reset_index(drop=True)
+    df = metrics._get_df_with_unique_dev_id(df)
     html = get_html_leaderboard(df.round(3).head(NUM_ROWS), 'Thumbs Up Prize Contenders')
     image_path = save_html_as_image(html, image_path="thumbs_up_prize.png")
     return image_path
@@ -105,6 +107,7 @@ def _get_thumbs_up_prize(df):
 
 def _get_engagement_prize(df):
     df = df.sort_values('user_response_length', ascending=False).reset_index(drop=True)
+    df = metrics._get_df_with_unique_dev_id(df)
     html = get_html_leaderboard(df.round(3).head(NUM_ROWS), 'Engagement Prize Contenders')
     image_path = save_html_as_image(html, image_path="engagement_prize.png")
     return image_path
