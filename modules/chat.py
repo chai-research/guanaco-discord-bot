@@ -16,7 +16,6 @@ def attach_chat_module(bot):
             name=THREAD_NAME_TEMPLATE.format(bot_name=bot_name, submission_id=submission_id),
             type=ChannelType.public_thread
         )
-        await ctx.message.delete()
 
         if not utils.validate_bot_name(bot_name):
             await thread.send(f"Unable to find {bot_name}, ensure such character exist.")
