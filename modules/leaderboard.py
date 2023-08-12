@@ -43,15 +43,15 @@ def get_leaderboard_data():
 
 
 def prepare_leaderboard_data(leaderboard):
-    leaderboard = metrics._print_formatted_leaderboard(leaderboard, detailed=False)
+    leaderboard = metrics._print_formatted_leaderboard(leaderboard, detailed=True)
     return leaderboard
 
 
 def get_files_from_leaderboard(leaderboard):
     files = [_create_discord_file(prize_func(leaderboard), filename)
              for prize_func, filename in zip(
-            [_get_grand_prize, _get_thumbs_up_prize, _get_engagement_prize],
-            ["image1.png", "image2.png", "image3.png"])]
+            [_get_grand_prize, _get_detailed_grand_prize],
+            ["image1.png", "image2.png"])]
     return files
 
 
@@ -93,7 +93,14 @@ def _get_grand_prize(df):
     df = df.sort_values(['overall_rank', 'developer_uid', 'model_name']).reset_index(drop=True)
     df = metrics._get_df_with_unique_dev_id(df)
     html = get_html_leaderboard(df.round(3).head(NUM_ROWS), 'Grand Prize Contenders')
-    image_path = save_html_as_image(html, image_path="grand_prize.png")
+    image_path = save_html_as_image(html, image_path="grand_prize.png", size=(1400, 750))
+    return image_path
+
+
+def _get_detailed_grand_prize(df):
+    df = df.sort_values(['overall_rank', 'developer_uid', 'model_name']).reset_index(drop=True)
+    html = get_html_leaderboard(df.round(3).head(35), 'Detailed Leaderboard by Model')
+    image_path = save_html_as_image(html, image_path="detailed.png", size=(1400, 2000))
     return image_path
 
 
@@ -113,9 +120,9 @@ def _get_engagement_prize(df):
     return image_path
 
 
-def save_html_as_image(html, image_path):
+def save_html_as_image(html, image_path, size=(1150, 800)):
     hti = Html2Image(custom_flags=["--disable-gpu", "--no-sandbox", "--hide-scrollbars"])
-    data = hti.screenshot(html_str=html, save_as=image_path, size=(1150, 800))
+    data = hti.screenshot(html_str=html, save_as=image_path, size=size)
     full_image_path = data[0]
     return full_image_path
 
@@ -216,7 +223,9 @@ def _get_column_names():
         "developer_uid": "Developer",
         "model_name": "Model",
         "thumbs_up_ratio": "Thumbs Up",
-        "user_response_length": "User Response Length",
+        "user_engagement": "User Engagement",
+        "retry_score": "Retry Score",
+        "total_feedback_count": "Total Feedback Count",
         "overall_rank": "Overall Rank"
     }
     return column_names
