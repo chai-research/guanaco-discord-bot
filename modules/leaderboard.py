@@ -14,7 +14,7 @@ LAST_MESSAGE_ID = None
 
 
 def attach_leaderboard_module(bot: discord.ext.commands.Bot):
-    @tasks.loop(hours=6)
+    @tasks.loop(hours=2)
     async def send_leaderboard():
         global LAST_MESSAGE_ID
         channel = bot.get_channel(config.LEADERBOARD_CHANNEL_ID)
@@ -23,7 +23,7 @@ def attach_leaderboard_module(bot: discord.ext.commands.Bot):
         files = get_files_from_leaderboard(leaderboard)
         embeds = create_embeds(len(files))
         await delete_last_message(channel, bot.application_id)
-        message = await channel.send("🏆 Guanaco Leaderboard", embeds=embeds, files=files, silent=True)
+        message = await channel.send("🏆 Chai Prize Leaderboard", embeds=embeds, files=files, silent=True)
         LAST_MESSAGE_ID = message.id
 
     @bot.event
