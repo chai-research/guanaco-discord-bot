@@ -1,4 +1,4 @@
-discord.py
-chai-guanaco
-html2image
-beautifulsoup4
+discord.py==2.3.2
+chai-guanaco==1.1.7
+html2image==2.0.3
+beautifulsoup4==4.12.2
