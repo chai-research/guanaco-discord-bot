@@ -10,7 +10,8 @@ def attach_characters_module(bot):
         text = "Available bots:\n"
         for bot_name in available_bots:
             text += f"- {bot_name}\n"
-        text += 'To chat with a model, simply do "/chat {model_id} {bot_name}"\nTo see all avaliable model_ids, type "/models"'
+        text += 'To chat with a model, simply do "/chat {model_id} {bot_name}"\n' \
+                'To see all available model_ids, type "/models"'
         await ctx.reply(text)
 
     @bot.command(name="models", description='Lists all available models to talk with.')

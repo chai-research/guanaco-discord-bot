@@ -9,7 +9,7 @@ from chai_guanaco.utils import cache
 
 import config
 
-NUM_ROWS = 10
+NUM_ROWS = 14
 LAST_MESSAGE_ID = None
 
 
@@ -93,7 +93,7 @@ def _get_grand_prize(df):
     df = df.sort_values(['overall_rank', 'developer_uid', 'model_name']).reset_index(drop=True)
     df = metrics._get_df_with_unique_dev_id(df)
     html = get_html_leaderboard(df.round(3).head(NUM_ROWS), 'Grand Prize Contenders')
-    image_path = save_html_as_image(html, image_path="grand_prize.png", size=(1400, 750))
+    image_path = save_html_as_image(html, image_path="grand_prize.png", size=(1400, 1000))
     return image_path
 
 
@@ -153,7 +153,7 @@ def _add_custom_css(soup):
 
 def _add_margin(soup):
     style_tag = soup.new_tag('style')
-    style_tag.string = 'body { margin: 65px 60px 65px 105px; }'
+    style_tag.string = 'body { margin: 65px 65px 65px 90px; }'
     soup.head.append(style_tag)
 
 
